@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->integer('duracion')->nullable();  // en minutos
             $table->year('anio')->nullable();
-            $table->string('titulo');
             $table->enum('tipo', ['pelicula', 'serie', 'documental']);
             // Relación con categorías (1:N)
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
