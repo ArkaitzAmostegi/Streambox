@@ -8,7 +8,12 @@ class Director extends Model
 {
     protected $fillable = [
         'nombre',
-        'anio-nacimiento',
+        'anio_nacimiento',
         'edad'
-    ]
+    ];
+    
+    public function media()
+    {
+        return $this->hasMany(Media::class);
+    }
 }

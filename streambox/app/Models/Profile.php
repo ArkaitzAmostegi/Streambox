@@ -9,11 +9,12 @@ class Profile extends Model
     protected $fillable = [
         'nombre',
         'edad',
-        'telefono'
-    ]
+        'telefono',
+        'user_id'
+    ];
     //Relación con usuario
-    public function usuario()
+    public function user()
     {
-        return $this->belongsTo(Usuario::class);
+        return $this->belongsTo(User::class);
     }
 }

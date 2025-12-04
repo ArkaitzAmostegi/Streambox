@@ -11,11 +11,18 @@ class Media extends Model
         'descripcion',
         'duracion',
         'anio',
-        'tipo'
-    ]
-    //Relación con categoría
-    public function category()
+        'tipo',
+        'director_id'
+    ];
+
+    //Relación con director
+    public function director()
     {
-        return $this->belongsTo(Category::class, 'idCategory');
+        return $this->belongsTo(Director::class);
+    }
+    //Relación con géneros(genres)
+     public function genres()
+    {
+        return $this->belongsToMany(Genre::class, 'media_genre');
     }
 }

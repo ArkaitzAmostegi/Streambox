@@ -8,10 +8,11 @@ class Genre extends Model
 {
     protected $fillable = [
         'nombre'
-    ]
+    ];
+    
     //Relación con Media
-    public function category()
+        public function media()
     {
-        return $this->belongsTo(Media::class, 'idMedia');
+        return $this->belongsToMany(Media::class, 'media_genre');
     }
 }

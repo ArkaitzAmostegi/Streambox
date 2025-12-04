@@ -18,8 +18,9 @@ return new class extends Migration
             $table->integer('duracion')->nullable();  // en minutos
             $table->year('anio')->nullable();
             $table->enum('tipo', ['pelicula', 'serie', 'documental']);
-            // Relación con categorías (1:N)
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+
+            // Relación correcta 1:N con Director
+            $table->foreignId('director_id')->constrained()->cascadeOnDelete();
 
             $table->timestamps();
         });

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('directors', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('anio-nacimiento');
-            $table->integer('edad');
+            $table->year('anio_nacimiento')->nullable();
+            $table->integer('edad')->nullable();
             $table->timestamps();
         });
     }
