@@ -12,7 +12,8 @@ class Media extends Model
         'duracion',
         'anio',
         'tipo',
-        'director_id'
+        'director_id',
+        'category_id'
     ];
 
     //Relación con director
@@ -21,8 +22,13 @@ class Media extends Model
         return $this->belongsTo(Director::class);
     }
     //Relación con géneros(genres)
-     public function genres()
+    public function genres()
     {
         return $this->belongsToMany(Genre::class, 'media_genre');
+    }
+    //Relación con category
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

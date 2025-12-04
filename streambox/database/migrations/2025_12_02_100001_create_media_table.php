@@ -18,8 +18,9 @@ return new class extends Migration
             // Relación 1:N con directors
             $table->foreignId('director_id')->constrained()->cascadeOnDelete();
 
-            // Tipo de contenido
-            $table->enum('tipo', ['pelicula', 'serie', 'documental']);
+            //Relación con category
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+
 
             $table->timestamps();
         });
