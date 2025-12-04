@@ -2,12 +2,27 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
-
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\DirectorController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-//Ruta que lleva al index de category
-Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+// Categorías (listado)
+Route::get('/categories', [CategoryController::class, 'index'])
+    ->name('category.index');
 
+// Media según categoría
+Route::get('/categories/{category}/media', [CategoryController::class, 'showMedia'])
+    ->name('category.media');
+
+// CRUD Media (sin index)
+Route::resource('media', MediaController::class)->except(['index']);
+
+// CRUD Genres
+Route::resource('genre', GenreController::class);
+
+// CRUD Directors
+Route::resource('director', DirectorController::class);

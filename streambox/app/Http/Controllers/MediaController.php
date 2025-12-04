@@ -12,7 +12,7 @@ class MediaController extends Controller
      */
     public function index()
     {
-        //
+        abort(404); //Ya que siempre estará filtrado. Se usará filterByType()
     }
 
     /**
@@ -62,4 +62,28 @@ class MediaController extends Controller
     {
         //
     }
+
+    //Para filtrar por categoría
+    public function filterByType($tipo)
+    {
+         // Mapa tipo → category_id
+        $map = [
+            'documental' => 1,
+            'pelicula'   => 2,
+            'serie'      => 3,
+        ];
+
+        // Si no existe el tipo, 404
+        if (!isset($map[$tipo])) {
+            abort(404, "Categoría no válida");
+        }
+
+        $categoryId = $map[$tipo];
+
+        // Filtrado real
+        $media = Media::where('category_id', $categoryId)->get();
+
+        return view('media.index', compact('media', 'tipo'));
+    }
+
 }

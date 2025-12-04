@@ -17,6 +17,17 @@ class CategoryController extends Controller
         ]);
     }
 
+    public function showMedia(Category $category)
+    {
+        // Obtener los media asociados
+        $media = $category->media()->get();
+
+        return view('media.index', [
+            'media' => $media,
+            'category' => $category
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -38,8 +49,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return view('category.show', compact('category'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
