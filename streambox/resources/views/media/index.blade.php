@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+<h3>Hola {{ $currentUser->name }}, aquí tienes tus contenidos</h3>
+
 @section('content')
 
 <h2>Listado de {{ $category->nombre }}</h2>

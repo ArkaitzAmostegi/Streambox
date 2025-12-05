@@ -15,5 +15,11 @@ class UserSeeder extends Seeder
             'email' => 'ash@plaia.eus',
             'password' => Hash::make('Ash123'),
         ]);
+
+        User::create([
+            'name' => 'Akane',
+            'email' => 'akane@plaia.eus',
+            'password' => Hash::make('Akane123'),
+        ]);
     }
 }
