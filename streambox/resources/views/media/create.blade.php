@@ -34,4 +34,5 @@
 
     <button type="submit">Crear</button>
 </form>
+<x-back-button url="{{ route('category.index') }}" /> {{--Botón volver --}}
 @endsection

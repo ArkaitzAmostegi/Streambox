@@ -6,7 +6,7 @@
 
 @if ($currentUser && $currentUser->role === 'admin')
     <a href="{{ route('media.create') }}"
-       style="display:inline-block; padding:8px 15px; background:#4caf50; color:white; text-decoration:none; border-radius:6px;">
+        style="display:inline-block; padding:8px 15px; background:#4caf50; color:white; text-decoration:none; border-radius:6px;">
         + Crear nuevo contenido
     </a>
 @endif
@@ -41,8 +41,8 @@
 
                         {{-- Eliminar --}}
                         <form action="{{ route('media.destroy', $item->id) }}"
-                              method="POST"
-                              style="display:inline;">
+                                method="POST"
+                                style="display:inline;">
                             @csrf
                             @method('DELETE')
 
@@ -59,6 +59,7 @@
                 <td colspan="6">No hay contenido en esta categoría.</td>
             </tr>
         @endforelse
+        <x-back-button url="{{ route('category.index') }}" />{{--Botón volver --}}
     </tbody>
 </table>
 

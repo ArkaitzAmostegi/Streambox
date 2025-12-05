@@ -40,5 +40,6 @@
 
     <button type="submit">Actualizar</button>
 </form>
+<x-back-button url="{{ route('category.index') }}" />{{--Botón volver --}}
 
 @endsection
