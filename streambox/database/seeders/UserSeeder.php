@@ -14,12 +14,14 @@ class UserSeeder extends Seeder
             'name' => 'Ash',
             'email' => 'ash@plaia.eus',
             'password' => Hash::make('Ash123'),
+            'role' => 'admin'
         ]);
 
         User::create([
             'name' => 'Akane',
             'email' => 'akane@plaia.eus',
             'password' => Hash::make('Akane123'),
+            'role' => 'user'
         ]);
     }
 }

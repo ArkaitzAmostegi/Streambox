@@ -3,87 +3,115 @@
 namespace App\Http\Controllers;
 
 use App\Models\Media;
+use App\Models\Category;
+use App\Models\Director;
 use Illuminate\Http\Request;
 
 class MediaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private function denyIfNotAdmin()
+    {
+        $user = view()->shared('currentUser');
+
+        if (!$user || $user->role !== 'admin') {
+            abort(403, 'No autorizado');
+        }
+    }
+
     public function index()
     {
-        abort(404); //Ya que siempre estará filtrado. Se usará filterByType()
+        abort(404); // Nunca usado
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $this->denyIfNotAdmin();
+
+        return view('media.create', [
+            'categories' => Category::all(),
+            'directors' => Director::all()
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $this->denyIfNotAdmin();
+
+        $validated = $request->validate([
+            'titulo' => 'required',
+            'descripcion' => 'nullable|string',
+            'anio' => 'required|integer',
+            'duracion' => 'required|integer',
+            'category_id' => 'required|exists:categories,id',
+            'director_id' => 'required|exists:directors,id',
+        ]);
+
+        Media::create($validated);
+
+        return redirect()->route('category.media', $validated['category_id'])
+            ->with('success', 'Contenido creado correctamente');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Media $media)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Media $media)
     {
-        //
+        $this->denyIfNotAdmin();
+
+        return view('media.edit', [
+            'media' => $media,
+            'categories' => Category::all(),
+            'directors' => Director::all()
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Media $media)
     {
-        //
+        $this->denyIfNotAdmin();
+
+        $validated = $request->validate([
+            'titulo' => 'required',
+            'descripcion' => 'nullable|string',
+            'anio' => 'required|integer',
+            'duracion' => 'required|integer',
+            'category_id' => 'required|exists:categories,id',
+            'director_id' => 'required|exists:directors,id',
+        ]);
+
+        $media->update($validated);
+
+        return redirect()->route('category.media', $validated['category_id'])
+            ->with('success', 'Contenido actualizado');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Media $media)
     {
-        //
+        $this->denyIfNotAdmin();
+
+        $categoryId = $media->category_id;
+
+        $media->delete();
+
+        return redirect()->route('category.media', $categoryId)
+            ->with('success', 'Contenido eliminado');
     }
 
-    //Para filtrar por categoría
     public function filterByType($tipo)
     {
-         // Mapa tipo → category_id
+        // Mapa tipo → category_id
         $map = [
             'documental' => 1,
             'pelicula'   => 2,
             'serie'      => 3,
         ];
 
-        // Si no existe el tipo, 404
         if (!isset($map[$tipo])) {
             abort(404, "Categoría no válida");
         }
 
         $categoryId = $map[$tipo];
 
-        // Filtrado real
         $media = Media::where('category_id', $categoryId)->get();
+        $category = Category::findOrFail($categoryId);
 
-        return view('media.index', compact('media', 'tipo'));
+        return view('media.index', compact('media', 'category'));
     }
-
 }

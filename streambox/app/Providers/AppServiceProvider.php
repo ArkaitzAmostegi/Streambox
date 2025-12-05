@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Dos usuarios: 1 = admin, 2 = cliente
-        $currentUser = User::find(1); // cambiarlo por 1 para admin, 2 para cliente
+        $currentUser = User::find(2); // cambiarlo por 1 para admin, 2 para cliente
 
         view()->share('currentUser', $currentUser);
     }
