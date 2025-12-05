@@ -24,7 +24,7 @@ class Media extends Model
     //Relación con géneros(genres)
     public function genres()
     {
-        return $this->belongsToMany(Genre::class, 'media_genre');
+        return $this->belongsToMany(Genre::class, 'media_genres');
     }
     //Relación con category
     public function category()
