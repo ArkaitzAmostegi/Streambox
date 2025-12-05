@@ -33,6 +33,12 @@ class MediaController extends Controller
         ]);
     }
 
+    //Método show vacío
+    public function show(Media $media)
+    {
+        return redirect()->back();
+    }
+
     public function store(Request $request)
     {
         $this->denyIfNotAdmin();

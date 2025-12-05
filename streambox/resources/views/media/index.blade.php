@@ -40,7 +40,7 @@
                         <a href="{{ route('media.edit', $item) }}">Editar</a>
 
                         {{-- Eliminar --}}
-                        <form action="{{ route('media.destroy', $item) }}">
+                        <form action="{{ route('media.destroy', $item) }}"
                             method="POST"
                             style="display:inline;">
 

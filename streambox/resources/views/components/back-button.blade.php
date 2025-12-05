@@ -1,3 +1,4 @@
+<br>
 <div>
     <a href="{{ $url }}"
         style="display:inline-block; padding:6px 12px; background:#ddd; border:1px solid #aaa;

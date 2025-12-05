@@ -14,13 +14,14 @@ Route::get('/', function () {
 Route::get('/categories', [CategoryController::class, 'index'])
     ->name('category.index');
 
-// Media según categoría
-Route::resource('media', MediaController::class)
-    ->parameters(['media' => 'media'])
-    ->except(['index']);
+    // Media según categoría
+Route::get('/categories/{category}/media', [CategoryController::class, 'showMedia'])
+    ->name('category.media');
 
-// CRUD Media (sin index)
-Route::resource('media', MediaController::class)->except(['index']);
+// CRUD Media
+Route::resource('media', MediaController::class)
+    ->parameters(['media' => 'media']) // Si no hacia esto pedía medium el singular de media para el edit o el delete
+    ->except(['index']);
 
 // CRUD Genres
 Route::resource('genre', GenreController::class);
