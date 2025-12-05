@@ -37,12 +37,13 @@
                 @if ($currentUser && $currentUser->role === 'admin')
                     <td>
                         {{-- Editar --}}
-                        <a href="{{ route('media.edit', $item->id) }}">Editar</a>
+                        <a href="{{ route('media.edit', $item) }}">Editar</a>
 
                         {{-- Eliminar --}}
-                        <form action="{{ route('media.destroy', $item->id) }}"
-                                method="POST"
-                                style="display:inline;">
+                        <form action="{{ route('media.destroy', $item) }}">
+                            method="POST"
+                            style="display:inline;">
+
                             @csrf
                             @method('DELETE')
 
@@ -59,9 +60,11 @@
                 <td colspan="6">No hay contenido en esta categoría.</td>
             </tr>
         @endforelse
-        <x-back-button url="{{ route('category.index') }}" />{{--Botón volver --}}
     </tbody>
 </table>
 
+<x-back-button :url="route('category.index')" />{{--Botón volver --}}
+
 @endsection
+
 

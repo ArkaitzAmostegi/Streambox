@@ -11,7 +11,7 @@ class MediaController extends Controller
 {
     private function denyIfNotAdmin()
     {
-        $user = view()->shared('currentUser');
+        $user = \App\Models\User::find(1); // o auth()->user() más adelante
 
         if (!$user || $user->role !== 'admin') {
             abort(403, 'No autorizado');

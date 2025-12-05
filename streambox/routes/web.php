@@ -15,8 +15,9 @@ Route::get('/categories', [CategoryController::class, 'index'])
     ->name('category.index');
 
 // Media según categoría
-Route::get('/categories/{category}/media', [CategoryController::class, 'showMedia'])
-    ->name('category.media');
+Route::resource('media', MediaController::class)
+    ->parameters(['media' => 'media'])
+    ->except(['index']);
 
 // CRUD Media (sin index)
 Route::resource('media', MediaController::class)->except(['index']);

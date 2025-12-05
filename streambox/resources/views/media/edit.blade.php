@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+{{-- {{ dd($media) }} --}}
 
 <h2>Editar contenido: {{ $media->titulo }}</h2>
 
-<form action="{{ route('media.update', $media->id) }}" method="POST">
+<form action="{{ route('media.update', $media) }}" method="POST">
     @csrf
     @method('PUT')
 
@@ -36,10 +37,12 @@
                 {{ $d->nombre }}
             </option>
         @endforeach
+
     </select><br><br>
 
     <button type="submit">Actualizar</button>
 </form>
-<x-back-button url="{{ route('category.index') }}" />{{--Botón volver --}}
+
+<x-back-button :url="route('category.index')" />
 
 @endsection
