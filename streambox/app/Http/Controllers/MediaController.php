@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class MediaController extends Controller
 {
+    //Validamos permisos de seguridad, si no es admin, no puede editar, borrar,.... todo cuanto use denyIfNotAdmin
     private function denyIfNotAdmin()
     {
         $user = \App\Models\User::find(1); // o auth()->user() más adelante
