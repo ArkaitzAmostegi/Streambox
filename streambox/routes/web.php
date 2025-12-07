@@ -12,12 +12,10 @@ Route::get('/', function () {
 });
 
 // Categorías (listado)
-Route::get('/categories', [CategoryController::class, 'index'])
-    ->name('category.index');
+Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
 
-    // Media según categoría
-Route::get('/categories/{category}/media', [CategoryController::class, 'showMedia'])
-    ->name('category.media');
+// Media según categoría
+Route::get('/categories/{category}/media', [CategoryController::class, 'showMedia'])->name('category.media');
 
 // CRUD Media
 Route::resource('media', MediaController::class)
