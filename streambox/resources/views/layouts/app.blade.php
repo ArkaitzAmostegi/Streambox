@@ -15,7 +15,12 @@
         <h1>STREAMBOX</h1>
     </a>
     @if ($currentUser)
-        <p>Bienvenido, {{ $currentUser->name }}</p>
+        <p>Bienvenido, 
+            <a href="{{ route('profile.edit') }}" 
+                style="padding:4px 8px; background:#addc92; border-radius:4px;">
+                {{ $currentUser->name }}
+            </a>
+        </p>
     @endif
     <hr>
 </header>

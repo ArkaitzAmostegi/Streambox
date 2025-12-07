@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profile;
+use App\Models\User;
+
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -39,22 +41,45 @@ class ProfileController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Profile $profile)
+    // Mostrar formulario de edición del perfil
+    public function edit()
     {
-        //
+        $currentUser = User::find(1); //tengo que hardcodear el user, ya que Laravel no permite user view()->share() en los controladores
+        $profile = $currentUser->profile;
+
+        return view('profile.edit', compact('currentUser', 'profile'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Profile $profile)
-    {
-        //
-    }
 
+    // Actualizar perfil en la BBDD
+    public function update(Request $request)
+    {
+        $currentUser = User::find(1); //tengo que hardcodear el user, ya que Laravel no permite user view()->share() en los controladores
+        $profile = $currentUser->profile;
+
+        $validated = $request->validate([
+            'nombre' => 'required|string',
+            'edad' => 'nullable|integer',
+            'telefono' => 'nullable|string',
+            'email' => 'required|email'
+        ]);
+
+        // Actualizar USER
+        $currentUser->update([
+            'name' => $validated['nombre'],
+            'email' => $validated['email']
+        ]);
+
+        // Actualizar PROFILE
+        $profile->update([
+            'nombre' => $validated['nombre'],
+            'edad' => $validated['edad'],
+            'telefono' => $validated['telefono'],
+            'email' => $validated['email']
+        ]);
+
+        return redirect()->route('profile.edit')->with('success', 'Perfil actualizado correctamente');
+    }
     /**
      * Remove the specified resource from storage.
      */

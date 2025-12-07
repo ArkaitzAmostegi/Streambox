@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
             //Mostrar botones sólo para el admin
             //mostrar menús según rol
             // Dos usuarios: 1 = admin, 2 = cliente
-            $user = User::find(2); // cambiarlo por 1 para admin, 2 para cliente
+            $user = User::find(1); // cambiarlo por 1 para admin, 2 para cliente
             view()->share('currentUser', $user);
         }
     }

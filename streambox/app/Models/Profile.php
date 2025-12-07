@@ -10,6 +10,7 @@ class Profile extends Model
         'nombre',
         'edad',
         'telefono',
+        'email',
         'user_id'
     ];
     //Relación con usuario
