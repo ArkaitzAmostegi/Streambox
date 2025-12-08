@@ -22,7 +22,7 @@ class GenreController extends Controller
      */
     public function create()
     {
-        //
+        return view('genre.create');
     }
 
     /**
@@ -30,7 +30,14 @@ class GenreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255'
+        ]);
+
+        Genre::create($validated);
+
+        return redirect()->route('genre.index')
+            ->with('success', 'Género creado correctamente.');
     }
 
     /**
@@ -46,7 +53,7 @@ class GenreController extends Controller
      */
     public function edit(Genre $genre)
     {
-        //
+        return view('genre.edit', compact('genre'));
     }
 
     /**
@@ -54,7 +61,14 @@ class GenreController extends Controller
      */
     public function update(Request $request, Genre $genre)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255'
+        ]);
+
+        $genre->update($validated);
+
+        return redirect()->route('genre.index')
+            ->with('success', 'Género actualizado correctamente.');
     }
 
     /**
@@ -62,6 +76,12 @@ class GenreController extends Controller
      */
     public function destroy(Genre $genre)
     {
-        //
+        if ($genre->media()->count() > 0) {
+            return back()->with('error', 'No se puede borrar un género que está siendo utilizado.');
+        }
+
+        $genre->delete();
+        return back()->with('success', 'Género eliminado correctamente.');
     }
+
 }
