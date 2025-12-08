@@ -1,17 +1,19 @@
-
 @extends('layouts.app')
 
 @section('content')
-    <h2>Bienvenido a Streambox</h2>
-    <p>Selecciona una categoría desde el menú.</p>
 
-    <ul>
-        @foreach (\App\Models\Category::all() as $category)
-            <li>
-                <a href="{{ route('category.media', $category->id) }}">
-                    {{ $category->nombre }}
-                </a>
-            </li>
-        @endforeach
-    </ul>
+<div style="text-align:center; margin-top:40px;">
+    
+    <h1 style="font-size:48px; font-weight:bold;">STREAMBOX</h1>
+
+    <p>Tu plataforma multimedia.</p>
+
+    <a href="{{ route('category.index') }}"
+        style="display:inline-block; padding:12px 25px; background:#4caf50; color:white;
+                text-decoration:none; border-radius:8px; font-size:18px;">
+        Entrar
+    </a>
+
+</div>
+
 @endsection

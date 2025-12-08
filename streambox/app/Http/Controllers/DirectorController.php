@@ -22,7 +22,7 @@ class DirectorController extends Controller
      */
     public function create()
     {
-        //
+        return view('director.create');
     }
 
     /**
@@ -30,7 +30,16 @@ class DirectorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'anio_nacimiento' => 'nullable|integer|min:1900|max:' . date('Y'),
+            'edad' => 'nullable|integer|min:0|max:120'
+        ]);
+
+        Director::create($validated);
+
+        return redirect()->route('director.index')
+                        ->with('success', 'Director creado correctamente.');
     }
 
     /**
@@ -46,7 +55,7 @@ class DirectorController extends Controller
      */
     public function edit(Director $director)
     {
-        //
+        return view('director.edit', compact('director'));
     }
 
     /**
@@ -54,7 +63,16 @@ class DirectorController extends Controller
      */
     public function update(Request $request, Director $director)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'anio_nacimiento' => 'nullable|integer|min:1900|max:' . date('Y'),
+            'edad' => 'nullable|integer|min:0|max:120'
+        ]);
+
+        $director->update($validated);
+
+        return redirect()->route('director.index')
+                        ->with('success', 'Director actualizado correctamente.');
     }
 
     /**
@@ -62,6 +80,12 @@ class DirectorController extends Controller
      */
     public function destroy(Director $director)
     {
-        //
+        if ($director->media()->count() > 0) {
+            return back()->with('error', 'No se puede borrar un director que tiene contenido asociado.');
+        }
+
+        $director->delete();
+        return back()->with('success', 'Director eliminado correctamente.');
     }
+
 }
