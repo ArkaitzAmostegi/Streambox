@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Listado principal de categorías
     public function index()
     {
         return view('category.index', [
@@ -17,6 +15,7 @@ class CategoryController extends Controller
         ]);
     }
 
+    // Muestra los media de una categoría
     public function showMedia(Category $category)
     {
         // Obtener los media asociados
@@ -28,52 +27,41 @@ class CategoryController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Formulario de creación (no usado)
     public function create()
     {
-        //
+        // Crear categorías no está contemplado por el proyecto
+        return redirect()->route('category.index');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Guardar categoría (no usado)
     public function store(Request $request)
     {
-        //
+        // No se crean categorías desde interfaz
+        return redirect()->route('category.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
+     // Mostrar detalles (no usado en este proyecto)
     public function show(Category $category)
     {
-        return view('category.show', compact('category'));
+        return redirect()->route('category.index');
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Formulario de edición (no usado)
     public function edit(Category $category)
     {
-        //
+        return redirect()->route('category.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Actualizar categoría (no usado)
     public function update(Request $request, Category $category)
     {
-        //
+        return redirect()->route('category.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Borrar categoría (no usado)
     public function destroy(Category $category)
     {
-        //
+        return redirect()->route('category.index');
     }
 }

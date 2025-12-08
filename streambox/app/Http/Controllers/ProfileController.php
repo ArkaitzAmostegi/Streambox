@@ -9,36 +9,29 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
-        //
+        // No se listan perfiles
+        return redirect()->route('profile.edit');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        // No se crean perfiles desde interfaz
+        return redirect()->route('profile.edit');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        // No se almacenan perfiles
+        return redirect()->route('profile.edit');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Profile $profile)
     {
-        //
+        // No se muestra perfil ajeno
+        return redirect()->route('profile.edit');
     }
 
     // Mostrar formulario de edición del perfil
@@ -80,11 +73,11 @@ class ProfileController extends Controller
 
         return redirect()->route('profile.edit')->with('success', 'Perfil actualizado correctamente');
     }
-    /**
-     * Remove the specified resource from storage.
-     */
+    
+    //No se usa
     public function destroy(Profile $profile)
     {
-        //
+        // No se permite borrar perfiles
+        return redirect()->route('profile.edit');
     }
 }

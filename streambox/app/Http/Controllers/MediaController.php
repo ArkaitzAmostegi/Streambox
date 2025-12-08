@@ -9,21 +9,25 @@ use Illuminate\Http\Request;
 
 class MediaController extends Controller
 {
+     // Seguridad: solo administradores pueden modificar
     //Validamos permisos de seguridad, si no es admin, no puede editar, borrar,.... todo cuanto use denyIfNotAdmin
     private function denyIfNotAdmin()
     {
-        $user = \App\Models\User::find(1); // o auth()->user() más adelante
+        $user = \App\Models\User::find(1); // simula login
 
         if (!$user || $user->role !== 'admin') {
             abort(403, 'No autorizado');
         }
     }
 
+    // No se usa listado general de Media
     public function index()
     {
-        abort(404); // Nunca usado
+        // No existe vista de listado completo
+        return redirect()->route('category.index');
     }
 
+    // Formulario de creación
     public function create()
     {
         $this->denyIfNotAdmin();
@@ -34,12 +38,13 @@ class MediaController extends Controller
         ]);
     }
 
-    //Método show vacío
+    // Mostrar un media (no se usa)
     public function show(Media $media)
     {
         return redirect()->back();
     }
 
+    // Guardar nuevo contenido
     public function store(Request $request)
     {
         $this->denyIfNotAdmin();
@@ -59,6 +64,7 @@ class MediaController extends Controller
             ->with('success', 'Contenido creado correctamente');
     }
 
+    // Formulario de edición
     public function edit(Media $media)
     {
         $this->denyIfNotAdmin();
@@ -70,6 +76,7 @@ class MediaController extends Controller
         ]);
     }
 
+     // Actualizar media
     public function update(Request $request, Media $media)
     {
         $this->denyIfNotAdmin();
@@ -89,6 +96,7 @@ class MediaController extends Controller
             ->with('success', 'Contenido actualizado');
     }
 
+     // Eliminar media
     public function destroy(Media $media)
     {
         $this->denyIfNotAdmin();
@@ -101,6 +109,7 @@ class MediaController extends Controller
             ->with('success', 'Contenido eliminado');
     }
 
+    // Filtrar según tipo
     public function filterByType($tipo)
     {
         // Mapa tipo → category_id

@@ -40,12 +40,11 @@ class GenreController extends Controller
             ->with('success', 'Género creado correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    //No se usa
     public function show(Genre $genre)
     {
-        //
+        // No se implementa vista show por no ser necesaria
+        return redirect()->route('genre.index');
     }
 
     /**

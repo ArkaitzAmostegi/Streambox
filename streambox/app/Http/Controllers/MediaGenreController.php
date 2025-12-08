@@ -12,15 +12,16 @@ class MediaGenreController extends Controller
      */
     public function index()
     {
-        //
+        // No se listan asociaciones pivot en interfaz
+        return redirect()->route('category.index');
     }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        // No se crean vínculos manualmente
+        return redirect()->route('category.index');
     }
 
     /**
@@ -28,7 +29,8 @@ class MediaGenreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // No se almacenan desde interfaz
+        return redirect()->route('category.index');
     }
 
     /**
@@ -36,7 +38,7 @@ class MediaGenreController extends Controller
      */
     public function show(MediaGenre $mediaGenre)
     {
-        //
+        return redirect()->route('category.index');
     }
 
     /**
@@ -44,7 +46,7 @@ class MediaGenreController extends Controller
      */
     public function edit(MediaGenre $mediaGenre)
     {
-        //
+        return redirect()->route('category.index');
     }
 
     /**
@@ -52,7 +54,7 @@ class MediaGenreController extends Controller
      */
     public function update(Request $request, MediaGenre $mediaGenre)
     {
-        //
+        return redirect()->route('category.index');
     }
 
     /**
@@ -60,6 +62,6 @@ class MediaGenreController extends Controller
      */
     public function destroy(MediaGenre $mediaGenre)
     {
-        //
+        return redirect()->route('category.index');
     }
 }

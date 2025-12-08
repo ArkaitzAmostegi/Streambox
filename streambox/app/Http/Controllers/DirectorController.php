@@ -42,12 +42,11 @@ class DirectorController extends Controller
                         ->with('success', 'Director creado correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    //No se usa
     public function show(Director $director)
     {
-        //
+        // No se usa vista show de directores
+        return redirect()->route('director.index');
     }
 
     /**
