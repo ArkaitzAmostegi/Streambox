@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Director;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+
 
 class DirectorController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         return view('director.index', [
             'directors' => Director::all()
@@ -20,7 +23,7 @@ class DirectorController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create():View
     {
         return view('director.create');
     }
@@ -28,7 +31,7 @@ class DirectorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
@@ -43,7 +46,7 @@ class DirectorController extends Controller
     }
 
     //No se usa
-    public function show(Director $director)
+    public function show(Director $director): RedirectResponse
     {
         // No se usa vista show de directores
         return redirect()->route('director.index');
@@ -52,7 +55,7 @@ class DirectorController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Director $director)
+    public function edit(Director $director):View
     {
         return view('director.edit', compact('director'));
     }
@@ -60,7 +63,7 @@ class DirectorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Director $director)
+    public function update(Request $request, Director $director): RedirectResponse
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
@@ -77,7 +80,7 @@ class DirectorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Director $director)
+    public function destroy(Director $director): RedirectResponse
     {
         if ($director->media()->count() > 0) {
             return back()->with('error', 'No se puede borrar un director que tiene contenido asociado.');

@@ -4,38 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\Profile;
 use App\Models\User;
-
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
     
-    public function index()
+    public function index(): RedirectResponse
     {
         // No se listan perfiles
         return redirect()->route('profile.edit');
     }
 
-    public function create()
+    public function create(): RedirectResponse
     {
         // No se crean perfiles desde interfaz
         return redirect()->route('profile.edit');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         // No se almacenan perfiles
         return redirect()->route('profile.edit');
     }
 
-    public function show(Profile $profile)
+    public function show(Profile $profile): RedirectResponse
     {
         // No se muestra perfil ajeno
         return redirect()->route('profile.edit');
     }
 
     // Mostrar formulario de edición del perfil
-    public function edit()
+    public function edit(): View
     {
         $currentUser = User::find(1); //tengo que hardcodear el user, ya que Laravel no permite user view()->share() en los controladores
         $profile = $currentUser->profile;
@@ -45,7 +46,7 @@ class ProfileController extends Controller
 
 
     // Actualizar perfil en la BBDD
-    public function update(Request $request)
+    public function update(Request $request): RedirectResponse
     {
         $currentUser = User::find(1); //tengo que hardcodear el user, ya que Laravel no permite user view()->share() en los controladores
         $profile = $currentUser->profile;
@@ -75,7 +76,7 @@ class ProfileController extends Controller
     }
     
     //No se usa
-    public function destroy(Profile $profile)
+    public function destroy(Profile $profile): RedirectResponse
     {
         // No se permite borrar perfiles
         return redirect()->route('profile.edit');

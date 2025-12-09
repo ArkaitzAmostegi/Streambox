@@ -6,12 +6,14 @@ use App\Models\Media;
 use App\Models\Category;
 use App\Models\Director;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class MediaController extends Controller
 {
      // Seguridad: solo administradores pueden modificar
     //Validamos permisos de seguridad, si no es admin, no puede editar, borrar,.... todo cuanto use denyIfNotAdmin
-    private function denyIfNotAdmin()
+    private function denyIfNotAdmin(): void
     {
         $user = \App\Models\User::find(1); // simula login
 
@@ -21,14 +23,14 @@ class MediaController extends Controller
     }
 
     // No se usa listado general de Media
-    public function index()
+    public function index(): RedirectResponse
     {
         // No existe vista de listado completo
         return redirect()->route('category.index');
     }
 
     // Formulario de creación
-    public function create()
+    public function create(): View
     {
         $this->denyIfNotAdmin();
 
@@ -39,13 +41,13 @@ class MediaController extends Controller
     }
 
     // Mostrar un media (no se usa)
-    public function show(Media $media)
+    public function show(Media $media): RedirectResponse
     {
         return redirect()->back();
     }
 
     // Guardar nuevo contenido
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $this->denyIfNotAdmin();
 
@@ -65,7 +67,7 @@ class MediaController extends Controller
     }
 
     // Formulario de edición
-    public function edit(Media $media)
+    public function edit(Media $media): View
     {
         $this->denyIfNotAdmin();
 
@@ -77,7 +79,7 @@ class MediaController extends Controller
     }
 
      // Actualizar media
-    public function update(Request $request, Media $media)
+    public function update(Request $request, Media $media): RedirectResponse
     {
         $this->denyIfNotAdmin();
 
@@ -97,7 +99,7 @@ class MediaController extends Controller
     }
 
      // Eliminar media
-    public function destroy(Media $media)
+    public function destroy(Media $media): RedirectResponse
     {
         $this->denyIfNotAdmin();
 
@@ -110,7 +112,7 @@ class MediaController extends Controller
     }
 
     // Filtrar según tipo
-    public function filterByType($tipo)
+    public function filterByType($tipo): View
     {
         // Mapa tipo → category_id
         $map = [

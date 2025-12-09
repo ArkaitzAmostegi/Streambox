@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Genre;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class GenreController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         return view('genre.index', [
             'genres' => Genre::all()
@@ -20,7 +22,7 @@ class GenreController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         return view('genre.create');
     }
@@ -28,7 +30,7 @@ class GenreController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:255'
@@ -41,7 +43,7 @@ class GenreController extends Controller
     }
 
     //No se usa
-    public function show(Genre $genre)
+    public function show(Genre $genre): RedirectResponse
     {
         // No se implementa vista show por no ser necesaria
         return redirect()->route('genre.index');
@@ -50,7 +52,7 @@ class GenreController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Genre $genre)
+    public function edit(Genre $genre): View
     {
         return view('genre.edit', compact('genre'));
     }
@@ -58,7 +60,7 @@ class GenreController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Genre $genre)
+    public function update(Request $request, Genre $genre): RedirectResponse
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:255'
@@ -73,7 +75,7 @@ class GenreController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Genre $genre)
+    public function destroy(Genre $genre): RedirectResponse
     {
         if ($genre->media()->count() > 0) {
             return back()->with('error', 'No se puede borrar un género que está siendo utilizado.');
