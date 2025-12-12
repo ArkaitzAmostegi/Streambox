@@ -1,4 +1,5 @@
 <?php
+App\Providers\ViewServiceProvider::class;
 
 return [
 

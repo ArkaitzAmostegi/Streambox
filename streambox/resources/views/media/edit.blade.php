@@ -5,7 +5,7 @@
 
 <h2>Editar contenido: {{ $media->titulo }}</h2>
 
-<form action="{{ route('media.update', $media) }}" method="POST">
+<form action="{{ route('media.update', $media->id) }}" method="POST">
     @csrf
     @method('PUT')
 
@@ -22,12 +22,10 @@
     <input type="number" name="duracion" value="{{ $media->duracion }}" required><br><br>
 
     <label>Categoría:</label><br>
-    <select name="category_id" required>
-        @foreach($categories as $c)
-            <option value="{{ $c->id }}" {{ $media->category_id == $c->id ? 'selected' : '' }}>
-                {{ $c->nombre }}
-            </option>
-        @endforeach
+    <select name="tipo" required>
+        <option value="pelicula">Película</option>
+        <option value="serie">Serie</option>
+        <option value="documental">Documental</option>
     </select><br><br>
 
     <label>Director:</label><br>
@@ -43,6 +41,6 @@
     <button type="submit">Actualizar</button>
 </form>
 
-<x-back-button :url="route('category.index')" />
+<x-back-button :url="route('media.index')" />
 
 @endsection

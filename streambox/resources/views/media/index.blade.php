@@ -2,7 +2,42 @@
 
 @section('content')
 
-<h2>Contenido de {{ $category->nombre }}</h2>
+{{-- Filtro de selección --}}
+<form method="GET" action="{{ route('media.index') }}" style="margin-bottom:20px;">
+    {{-- Tipo --}}
+    <select name="tipo">
+        <option value="">-- Tipo --</option>
+        <option value="pelicula" {{ request('tipo') === 'pelicula' ? 'selected' : '' }}>Películas</option>
+        <option value="serie" {{ request('tipo') === 'serie' ? 'selected' : '' }}>Series</option>
+        <option value="documental" {{ request('tipo') === 'documental' ? 'selected' : '' }}>Documentales</option>
+    </select>
+
+    {{-- Género --}}
+    <select name="genre_id">
+        <option value="">-- Género --</option>
+        @foreach ($genres as $genre)
+            <option value="{{ $genre->id }}"
+                {{ request('genre_id') == $genre->id ? 'selected' : '' }}>
+                {{ $genre->nombre }}
+            </option>
+        @endforeach
+    </select>
+
+    {{-- Director --}}
+    <select name="director_id">
+        <option value="">-- Director --</option>
+        @foreach ($directors as $director)
+            <option value="{{ $director->id }}"
+                {{ request('director_id') == $director->id ? 'selected' : '' }}>
+                {{ $director->nombre }}
+            </option>
+        @endforeach
+    </select>
+
+    <button type="submit">Filtrar</button>
+</form>
+
+<h2>Contenido de {{ $tipo }}</h2>
 
 @if ($currentUser && $currentUser->role === 'admin')
     <a href="{{ route('media.create') }}"
@@ -16,9 +51,10 @@
         <tr>
             <th>Título</th>
             <th>Descripción</th>
-            <th>Año</th>
+            <th>Género</th>
             <th>Duración</th>
             <th>Director</th>
+            <th>Año</th>
             @if ($currentUser && $currentUser->role === 'admin')
                 <th>Acciones</th>
             @endif
@@ -30,9 +66,10 @@
             <tr>
                 <td>{{ $item->titulo }}</td>
                 <td>{{ $item->descripcion }}</td>
-                <td>{{ $item->anio }}</td>
+                <td>{{ $item->genre->nombre ?? 'Sin calificar' }}</td>
                 <td>{{ $item->duracion }}</td>
                 <td>{{ $item->director->nombre ?? 'Sin director' }}</td>
+                <td>{{ $item->anio }}</td>
 
                 @if ($currentUser && $currentUser->role === 'admin')
                     <td>
@@ -63,7 +100,7 @@
     </tbody>
 </table>
 
-<x-back-button :url="route('category.index')" />{{--Botón volver --}}
+<x-back-button :url="route('media.index')" />{{--Botón volver --}}
 
 @endsection
 

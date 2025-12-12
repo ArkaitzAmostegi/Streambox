@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Media;
 use App\Models\Director;
+use App\Models\Genre;
+
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -25,9 +27,33 @@ class MediaController extends Controller
     /**
      * No existe listado global de media
      */
-    public function index(): RedirectResponse
+    public function index(Request $request): View
     {
-        return redirect()->route('media.tipo', 'pelicula');
+        $query = Media::query();
+
+        // Filtrar por tipo
+        if ($request->filled('tipo')) {
+            $query->where('tipo', $request->tipo);
+        }
+
+        // Filtrar por género (many-to-many)
+        if ($request->filled('genre_id')) {
+            $query->whereHas('genres', function ($q) use ($request) {
+                $q->where('genres.id', $request->genre_id);
+            });
+        }
+
+        // Filtrar por director
+        if ($request->filled('director_id')) {
+            $query->where('director_id', $request->director_id);
+        }
+
+        return view('media.index', [
+            'media'     => $query->get(),
+            'genres'    => Genre::all(),
+            'directors' => Director::all(),
+            'tipo'      => ucfirst($request->tipo ?? 'Todo')
+        ]);
     }
 
     /**
@@ -44,8 +70,10 @@ class MediaController extends Controller
         $media = Media::where('tipo', $tipo)->get();
 
         return view('media.index', [
-            'media' => $media,
-            'tipo'  => ucfirst($tipo)
+            'media'    => $media,
+            'tipo'     => ucfirst($tipo),
+            'genres'   => Genre::all(),
+            'directors'=> Director::all(),
         ]);
     }
 
@@ -72,10 +100,11 @@ class MediaController extends Controller
         $validated = $request->validate([
             'titulo'       => 'required|string',
             'descripcion'  => 'nullable|string',
-            'anio'         => 'required|integer',
+            'genre_id'     => 'required|exists:genre,id',
             'duracion'     => 'required|integer',
             'tipo'         => 'required|in:pelicula,documental,serie',
             'director_id'  => 'required|exists:directors,id',
+            'anio'         => 'required|integer',
         ]);
 
         Media::create($validated);

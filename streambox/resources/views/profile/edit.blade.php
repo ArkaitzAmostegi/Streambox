@@ -22,5 +22,5 @@
     <button type="submit">Guardar cambios</button>
 </form>
 {{-- Botón volver --}}
-<x-back-button :url="route('category.index')" />
+<x-back-button :url="route('media.index')" />
 @endsection

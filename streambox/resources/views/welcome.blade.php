@@ -8,7 +8,7 @@
 
     <p>Tu plataforma multimedia.</p>
 
-    <a href="{{ route('category.index') }}"
+    <a href="{{ route('media.index') }}"
         style="display:inline-block; padding:12px 25px; background:#4caf50; color:white;
                 text-decoration:none; border-radius:8px; font-size:18px;">
         Entrar

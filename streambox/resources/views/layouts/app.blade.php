@@ -14,14 +14,14 @@
     <a href="{{ route('media.index') }}" style="text-decoration:none; color:black;">
         <h1>STREAMBOX</h1>
     </a>
-    @if ($currentUser)
+    @isset($currentUser)
         <p>Bienvenido, 
             <a href="{{ route('profile.edit') }}" 
                 style="padding:4px 8px; background:#addc92; border-radius:4px;">
                 {{ $currentUser->name }}
             </a>
         </p>
-    @endif
+    @endisset
     <hr>
 </header>
 

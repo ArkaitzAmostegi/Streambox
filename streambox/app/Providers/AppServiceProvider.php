@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Providers;
-namespace App\View\Composers\CurrentUsercomposer;
 
+use App\View\Composers\CurrentUsercomposer;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;

@@ -19,10 +19,10 @@
     <input type="number" name="duracion" required><br><br>
 
     <label>Categoría:</label><br>
-    <select name="category_id" required>
-        @foreach($categories as $c)
-            <option value="{{ $c->id }}">{{ $c->nombre }}</option>
-        @endforeach
+    <select name="tipo" required>
+        <option value="pelicula">Película</option>
+        <option value="serie">Serie</option>
+        <option value="documental">Documental</option>
     </select><br><br>
 
     <label>Director:</label><br>
@@ -34,5 +34,5 @@
 
     <button type="submit">Crear</button>
 </form>
-<x-back-button url="{{ route('category.index') }}" /> {{--Botón volver --}}
+<x-back-button url="{{ route('media.index') }}" /> {{--Botón volver --}}
 @endsection

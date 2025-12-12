@@ -57,7 +57,7 @@
     </tbody>
 </table>
 
-<x-back-button :url="route('category.index')" />{{--Botón volver --}}
+<x-back-button :url="route('media.index')" />{{--Botón volver --}}
 
 @endsection
 

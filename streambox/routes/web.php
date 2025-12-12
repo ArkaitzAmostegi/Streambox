@@ -15,13 +15,18 @@ Route::get('/', function () {
 | MEDIA
 |--------------------------------------------------------------------------
 */
-
-// Listado por tipo: pelicula | documental | serie
-Route::get('/media/tipo/{tipo}', [MediaController::class, 'filterByType'])
-    ->name('media.tipo');
-
-// CRUD media (sin index)
-Route::resource('media', MediaController::class)->except(['index']);
+// CRUD media
+Route::get('/media/tipo/{tipo}', [MediaController::class, 'filterByType'])->name('media.tipo');
+Route::resource('media', MediaController::class)
+    ->parameters([
+        'media' => 'media'  //Ruta porque no acepta media/{media}, coje media/{medium}.  
+                            //Como muestra esta línea de consulta en el cmd: 
+                                // PS C:\PERSONAL\02 Estudios\02 Grado Superior de DAW\2 Año\DWES\2ª Evaluación\Streambox> docker-compose exec web php artisan route:list | findstr media.update
+                                //PUT|PATCH       media/{medium} ....... media.update ??? MediaController@update
+                            //Al poner esta ruta, pasamos a esto:
+                                //PS C:\PERSONAL\02 Estudios\02 Grado Superior de DAW\2 Año\DWES\2ª Evaluación\Streambox> docker-compose exec web php artisan route:list | findstr media.update
+                                // PUT|PATCH       media/{media} ........ media.update ??? MediaController@update
+    ]);
 
 /*
 |--------------------------------------------------------------------------
