@@ -16,12 +16,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if (Schema::hasTable('users')) {
-            //Esto sólo sirve para que en las vistas esté la varible $user
-            //Mostrar botones sólo para el admin
-            //mostrar menús según rol
-            // Dos usuarios: 1 = admin, 2 = cliente
-            $user = User::find(1); // cambiarlo por 1 para admin, 2 para cliente
-            view()->share('currentUser', $user);
+            // Ejecuta el composer en TODAS las vistas
+            View::composer('*', CurrentUserComposer::class);
         }
     }
 }
