@@ -1,33 +1,46 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\DirectorController;
-use App\Http\Controllers\Profilecontroller;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Categorías (listado)
-Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
+/*
+|--------------------------------------------------------------------------
+| MEDIA
+|--------------------------------------------------------------------------
+*/
 
-// Media según categoría
-Route::get('/categories/{category}/media', [CategoryController::class, 'showMedia'])->name('category.media');
+// Listado por tipo: pelicula | documental | serie
+Route::get('/media/tipo/{tipo}', [MediaController::class, 'filterByType'])
+    ->name('media.tipo');
 
-// CRUD Media
-Route::resource('media', MediaController::class)
-    ->parameters(['media' => 'media']) // Si no hacia esto pedía medium el singular de media para el edit o el delete
-    ->except(['index']);
+// CRUD media (sin index)
+Route::resource('media', MediaController::class)->except(['index']);
 
-// CRUD Genres
+/*
+|--------------------------------------------------------------------------
+| GÉNEROS
+|--------------------------------------------------------------------------
+*/
 Route::resource('genre', GenreController::class);
 
-// CRUD Directors
+/*
+|--------------------------------------------------------------------------
+| DIRECTORES
+|--------------------------------------------------------------------------
+*/
 Route::resource('director', DirectorController::class);
 
-//CRUD Profile, solo edit y update
+/*
+|--------------------------------------------------------------------------
+| PERFIL
+|--------------------------------------------------------------------------
+*/
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');

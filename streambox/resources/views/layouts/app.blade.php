@@ -11,7 +11,7 @@
 <body>
 
 <header>
-    <a href="{{ route('category.index') }}" style="text-decoration:none; color:black;">
+    <a href="{{ route('media.index') }}" style="text-decoration:none; color:black;">
         <h1>STREAMBOX</h1>
     </a>
     @if ($currentUser)

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Media;
-use App\Models\Category;
 use App\Models\Director;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -11,8 +10,9 @@ use Illuminate\Http\RedirectResponse;
 
 class MediaController extends Controller
 {
-     // Seguridad: solo administradores pueden modificar
-    //Validamos permisos de seguridad, si no es admin, no puede editar, borrar,.... todo cuanto use denyIfNotAdmin
+    /**
+     * Seguridad: solo administradores pueden modificar contenido
+     */
     private function denyIfNotAdmin(): void
     {
         $user = \App\Models\User::find(1); // simula login
@@ -22,114 +22,127 @@ class MediaController extends Controller
         }
     }
 
-    // No se usa listado general de Media
+    /**
+     * No existe listado global de media
+     */
     public function index(): RedirectResponse
     {
-        // No existe vista de listado completo
-        return redirect()->route('category.index');
+        return redirect()->route('media.tipo', 'pelicula');
     }
 
-    // Formulario de creación
+    /**
+     * Listado por tipo (pelicula, documental, serie)
+     */
+    public function filterByType(string $tipo): View
+    {
+        abort_unless(
+            in_array($tipo, ['pelicula', 'documental', 'serie']),
+            404,
+            'Tipo no válido'
+        );
+
+        $media = Media::where('tipo', $tipo)->get();
+
+        return view('media.index', [
+            'media' => $media,
+            'tipo'  => ucfirst($tipo)
+        ]);
+    }
+
+    /**
+     * Formulario de creación
+     */
     public function create(): View
     {
         $this->denyIfNotAdmin();
 
         return view('media.create', [
-            'categories' => Category::all(),
-            'directors' => Director::all()
+            'directors' => Director::all(),
+            'tipos' => ['pelicula', 'documental', 'serie']
         ]);
     }
 
-    // Mostrar un media (no se usa)
-    public function show(Media $media): RedirectResponse
-    {
-        return redirect()->back();
-    }
-
-    // Guardar nuevo contenido
+    /**
+     * Guardar nuevo contenido
+     */
     public function store(Request $request): RedirectResponse
     {
         $this->denyIfNotAdmin();
 
         $validated = $request->validate([
-            'titulo' => 'required',
-            'descripcion' => 'nullable|string',
-            'anio' => 'required|integer',
-            'duracion' => 'required|integer',
-            'category_id' => 'required|exists:categories,id',
-            'director_id' => 'required|exists:directors,id',
+            'titulo'       => 'required|string',
+            'descripcion'  => 'nullable|string',
+            'anio'         => 'required|integer',
+            'duracion'     => 'required|integer',
+            'tipo'         => 'required|in:pelicula,documental,serie',
+            'director_id'  => 'required|exists:directors,id',
         ]);
 
         Media::create($validated);
 
-        return redirect()->route('category.media', $validated['category_id'])
+        return redirect()
+            ->route('media.tipo', $validated['tipo'])
             ->with('success', 'Contenido creado correctamente');
     }
 
-    // Formulario de edición
+    /**
+     * Mostrar media (no se usa)
+     */
+    public function show(Media $media): RedirectResponse
+    {
+        return redirect()->back();
+    }
+
+    /**
+     * Formulario de edición
+     */
     public function edit(Media $media): View
     {
         $this->denyIfNotAdmin();
 
         return view('media.edit', [
-            'media' => $media,
-            'categories' => Category::all(),
-            'directors' => Director::all()
+            'media'     => $media,
+            'directors' => Director::all(),
+            'tipos'     => ['pelicula', 'documental', 'serie']
         ]);
     }
 
-     // Actualizar media
+    /**
+     * Actualizar media
+     */
     public function update(Request $request, Media $media): RedirectResponse
     {
         $this->denyIfNotAdmin();
 
         $validated = $request->validate([
-            'titulo' => 'required',
-            'descripcion' => 'nullable|string',
-            'anio' => 'required|integer',
-            'duracion' => 'required|integer',
-            'category_id' => 'required|exists:categories,id',
-            'director_id' => 'required|exists:directors,id',
+            'titulo'       => 'required|string',
+            'descripcion'  => 'nullable|string',
+            'anio'         => 'required|integer',
+            'duracion'     => 'required|integer',
+            'tipo'         => 'required|in:pelicula,documental,serie',
+            'director_id'  => 'required|exists:directors,id',
         ]);
 
         $media->update($validated);
 
-        return redirect()->route('category.media', $validated['category_id'])
+        return redirect()
+            ->route('media.tipo', $validated['tipo'])
             ->with('success', 'Contenido actualizado');
     }
 
-     // Eliminar media
+    /**
+     * Eliminar media
+     */
     public function destroy(Media $media): RedirectResponse
     {
         $this->denyIfNotAdmin();
 
-        $categoryId = $media->category_id;
+        $tipo = $media->tipo;
 
         $media->delete();
 
-        return redirect()->route('category.media', $categoryId)
+        return redirect()
+            ->route('media.tipo', $tipo)
             ->with('success', 'Contenido eliminado');
-    }
-
-    // Filtrar según tipo
-    public function filterByType($tipo): View
-    {
-        // Mapa tipo → category_id
-        $map = [
-            'documental' => 1,
-            'pelicula'   => 2,
-            'serie'      => 3,
-        ];
-
-        if (!isset($map[$tipo])) {
-            abort(404, "Categoría no válida");
-        }
-
-        $categoryId = $map[$tipo];
-
-        $media = Media::where('category_id', $categoryId)->get();
-        $category = Category::findOrFail($categoryId);
-
-        return view('media.index', compact('media', 'category'));
     }
 }

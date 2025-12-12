@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Providers;
+namespace App\View\Composers\CurrentUsercomposer;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 use App\Models\User;  
 
 class AppServiceProvider extends ServiceProvider

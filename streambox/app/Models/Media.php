@@ -29,9 +29,4 @@ class Media extends Model
     {
         return $this->belongsToMany(Genre::class, 'media_genres');
     }
-    //Relación con category
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
 }
