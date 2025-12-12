@@ -86,9 +86,11 @@ class MediaController extends Controller
 
         return view('media.create', [
             'directors' => Director::all(),
-            'tipos' => ['pelicula', 'documental', 'serie']
+            'genres'    => Genre::all(),   // ← ESTO FALTABA
+            'tipos'     => ['pelicula', 'documental', 'serie'],
         ]);
     }
+
 
     /**
      * Guardar nuevo contenido
@@ -100,14 +102,21 @@ class MediaController extends Controller
         $validated = $request->validate([
             'titulo'       => 'required|string',
             'descripcion'  => 'nullable|string',
-            'genre_id'     => 'required|exists:genre,id',
+            'anio'         => 'required|integer',
             'duracion'     => 'required|integer',
             'tipo'         => 'required|in:pelicula,documental,serie',
             'director_id'  => 'required|exists:directors,id',
-            'anio'         => 'required|integer',
+            'genre_ids'    => 'required|array',
+            'genre_ids.*'  => 'exists:genres,id',
         ]);
 
-        Media::create($validated);
+        // Crear media SIN los géneros
+        $media = Media::create(
+            collect($validated)->except('genre_ids')->toArray()
+        );
+
+        // Asociar géneros (tabla pivote)
+        $media->genres()->attach($validated['genre_ids']);
 
         return redirect()
             ->route('media.tipo', $validated['tipo'])
@@ -132,9 +141,11 @@ class MediaController extends Controller
         return view('media.edit', [
             'media'     => $media,
             'directors' => Director::all(),
-            'tipos'     => ['pelicula', 'documental', 'serie']
+            'genres'    => Genre::all(),
+            'tipos'     => ['pelicula', 'documental', 'serie'],
         ]);
     }
+
 
     /**
      * Actualizar media
@@ -150,13 +161,20 @@ class MediaController extends Controller
             'duracion'     => 'required|integer',
             'tipo'         => 'required|in:pelicula,documental,serie',
             'director_id'  => 'required|exists:directors,id',
+            'genre_ids'    => 'required|array',
+            'genre_ids.*'  => 'exists:genres,id',
         ]);
 
-        $media->update($validated);
+        $media->update(
+            collect($validated)->except('genre_ids')->toArray()
+        );
+
+        // Reemplaza relaciones (borra y vuelve a insertar)
+        $media->genres()->sync($validated['genre_ids']);
 
         return redirect()
             ->route('media.tipo', $validated['tipo'])
-            ->with('success', 'Contenido actualizado');
+            ->with('success', 'Contenido actualizado correctamente');
     }
 
     /**

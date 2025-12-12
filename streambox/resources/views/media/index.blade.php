@@ -66,7 +66,9 @@
             <tr>
                 <td>{{ $item->titulo }}</td>
                 <td>{{ $item->descripcion }}</td>
-                <td>{{ $item->genre->nombre ?? 'Sin calificar' }}</td>
+                <td>
+                    {{ $item->genres->pluck('nombre')->implode(', ') ?: 'Sin calificar' }}
+                </td>
                 <td>{{ $item->duracion }}</td>
                 <td>{{ $item->director->nombre ?? 'Sin director' }}</td>
                 <td>{{ $item->anio }}</td>

@@ -21,12 +21,15 @@
     <label>Duración (minutos):</label><br>
     <input type="number" name="duracion" value="{{ $media->duracion }}" required><br><br>
 
-    <label>Categoría:</label><br>
-    <select name="tipo" required>
-        <option value="pelicula">Película</option>
-        <option value="serie">Serie</option>
-        <option value="documental">Documental</option>
-    </select><br><br>
+    <select name="genre_ids[]" multiple>
+        @foreach($genres as $genre)
+            <option value="{{ $genre->id }}"
+                {{ $media->genres->contains($genre->id) ? 'selected' : '' }}>
+                {{ $genre->nombre }}
+            </option>
+        @endforeach
+    </select>
+
 
     <label>Director:</label><br>
     <select name="director_id" required>

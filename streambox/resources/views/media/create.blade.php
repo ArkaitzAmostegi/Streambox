@@ -25,6 +25,16 @@
         <option value="documental">Documental</option>
     </select><br><br>
 
+    <label>Géneros:</label><br>
+    <select name="genre_ids[]" multiple required>
+        @foreach($genres as $genre)
+            <option value="{{ $genre->id }}">
+                {{ $genre->nombre }}
+            </option>
+        @endforeach
+    </select>
+    <br><br>
+
     <label>Director:</label><br>
     <select name="director_id" required>
         @foreach($directors as $d)
