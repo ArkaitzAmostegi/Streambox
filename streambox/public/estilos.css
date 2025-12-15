@@ -101,7 +101,7 @@ body {
     margin: auto;
 }
 /* ===========================
-   TABLA STREAMBOX
+        TABLA STREAMBOX
    =========================== */
 
 .table-streambox {
@@ -123,8 +123,8 @@ body {
 }
 
 .table-streambox th {
-    padding: 14px 12px;
-    text-align: left;
+    padding: 20px 12px;
+    text-align: center;
     font-size: 0.85rem;
     letter-spacing: 1px;
     text-transform: uppercase;
