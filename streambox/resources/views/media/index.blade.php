@@ -75,7 +75,8 @@
                 @if ($currentUser && $currentUser->role === 'admin')
                     <td>
                         {{-- Editar --}}
-                        <a href="{{ route('media.edit', $item) }}" class="btn">✏️ Editar</a>
+                        <a href="{{ route('media.edit', $item) }}" class="btn"><i class="fa-regular fa-pen-to-square"></i>
+ Editar</a>
 
                         {{-- Eliminar --}}
                         <form action="{{ route('media.destroy', $item) }}"
@@ -87,7 +88,8 @@
 
                             <button type="submit" class="btn btn-danger"
                                     onclick="return confirm('¿Eliminar este contenido?')">
-                                🗑️ Borrar
+                                <i class="fa-solid fa-trash"></i>
+ Borrar
                             </button>
                         </form>
                     </td>
