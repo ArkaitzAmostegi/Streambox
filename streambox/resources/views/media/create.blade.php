@@ -42,7 +42,7 @@
         @endforeach
     </select><br><br>
 
-    <button type="submit">Crear</button>
+    <button type="submit" class="btn">Crear</button>
 </form>
-<x-back-button url="{{ route('media.index') }}" /> {{--Botón volver --}}
+<x-back-button url="{{ route('media.index') }}"/> {{--Botón volver --}}
 @endsection

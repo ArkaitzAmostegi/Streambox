@@ -3,35 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Streambox</title>
 
     <link rel="stylesheet" href="{{ asset('estilos.css') }}">
 </head>
 
-<body>
+<body class="@yield('body-class', 'body-app')">
 
-<header>
-    <a href="{{ route('media.index') }}" style="text-decoration:none; color:black;">
+<header class="main-header">
+    <a href="{{ route('media.index') }}" class="logo">
+        <br>
         <h1>STREAMBOX</h1>
     </a>
+    <br><br>
     @isset($currentUser)
-        <p>Bienvenido, 
-            <a href="{{ route('profile.edit') }}" 
-                style="padding:4px 8px; background:#addc92; border-radius:4px;">
-                {{ $currentUser->name }}
+        <p class="user-box">
+            <a href="{{ route('profile.edit') }}">       
+                Bienvenido, {{ $currentUser->name }}
             </a>
         </p>
     @endisset
-    <hr>
 </header>
 
 <main class="container">
     @yield('content')
 </main>
 
-<footer>
-    <hr>
-    <p>Proyecto Streambox Laravel</p>
+<footer class="main-footer">
+    <p>Proyecto Streambox · Laravel</p>
 </footer>
 
 </body>

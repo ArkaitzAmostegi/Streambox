@@ -21,6 +21,7 @@
     <label>Duración (minutos):</label><br>
     <input type="number" name="duracion" value="{{ $media->duracion }}" required><br><br>
 
+    <label>Género</label><br>
     <select name="genre_ids[]" multiple>
         @foreach($genres as $genre)
             <option value="{{ $genre->id }}"
@@ -28,8 +29,7 @@
                 {{ $genre->nombre }}
             </option>
         @endforeach
-    </select>
-
+    </select><br><br>
 
     <label>Director:</label><br>
     <select name="director_id" required>
@@ -41,9 +41,9 @@
 
     </select><br><br>
 
-    <button type="submit">Actualizar</button>
+    <button type="submit" class="btn">Actualizar</button>
 </form>
 
-<x-back-button :url="route('media.index')" />
+<x-back-button :url="route('media.index')"/>
 
 @endsection

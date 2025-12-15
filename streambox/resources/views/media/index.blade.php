@@ -34,19 +34,18 @@
         @endforeach
     </select>
 
-    <button type="submit">Filtrar</button>
+    <button type="submit" class="btn">Filtrar</button>
 </form>
 
 <h2>Contenido de {{ $tipo }}</h2>
 
 @if ($currentUser && $currentUser->role === 'admin')
-    <a href="{{ route('media.create') }}"
-        style="display:inline-block; padding:8px 15px; background:#4caf50; color:white; text-decoration:none; border-radius:6px;">
+    <a href="{{ route('media.create') }}" class="btn">
         + Crear nuevo contenido
     </a>
 @endif
 
-<table border="1" cellpadding="10" style="margin-top:20px; width:100%">
+<table class="table-streambox">
     <thead>
         <tr>
             <th>Título</th>
@@ -76,7 +75,7 @@
                 @if ($currentUser && $currentUser->role === 'admin')
                     <td>
                         {{-- Editar --}}
-                        <a href="{{ route('media.edit', $item) }}">Editar</a>
+                        <a href="{{ route('media.edit', $item) }}" class="btn">Editar</a>
 
                         {{-- Eliminar --}}
                         <form action="{{ route('media.destroy', $item) }}"
@@ -86,7 +85,7 @@
                             @csrf
                             @method('DELETE')
 
-                            <button type="submit"
+                            <button type="submit" class="btn btn-danger"
                                     onclick="return confirm('¿Eliminar este contenido?')">
                                 Borrar
                             </button>
@@ -102,7 +101,7 @@
     </tbody>
 </table>
 
-<x-back-button :url="route('media.index')" />{{--Botón volver --}}
+<x-back-button :url="route('media.index')"/>{{--Botón volver --}}
 
 @endsection
 

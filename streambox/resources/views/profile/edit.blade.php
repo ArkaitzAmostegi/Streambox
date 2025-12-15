@@ -19,7 +19,7 @@
     <label>Email:</label>
     <input type="email" name="email" value="{{ $profile->email }}" required><br><br>
 
-    <button type="submit">Guardar cambios</button>
+    <button type="submit" class="btn">Guardar cambios</button>
 </form>
 {{-- Botón volver --}}
 <x-back-button :url="route('media.index')" />
