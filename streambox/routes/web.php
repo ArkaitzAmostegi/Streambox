@@ -47,5 +47,6 @@ Route::resource('director', DirectorController::class);
 | PERFIL
 |--------------------------------------------------------------------------
 */
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');

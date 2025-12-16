@@ -11,10 +11,12 @@ use Illuminate\Http\Request;
 class ProfileController extends Controller
 {
     
-    public function index(): RedirectResponse
+    public function index(): View
     {
-        // No se listan perfiles
-        return redirect()->route('profile.edit');
+        $currentUser = User::find(1); // simulación login
+        $profile = $currentUser->profile;
+
+        return view('profile.index', compact('currentUser', 'profile'));
     }
 
     public function create(): RedirectResponse

@@ -77,13 +77,14 @@ body {
 /* USUARIO */
 .user-box {
     margin-top: 12px;
+    padding: 5px;
     font-size: 0.95rem;
 }
 
 .user-box a {
-    color: var(--gold);
+    color: var(--pagina);
     text-decoration: none;
-    padding: 4px 10px;
+    padding: 10px;
     margin-left: 6px;
     border-radius: 6px;
     background: green;
@@ -164,7 +165,7 @@ body {
 /* BOTONES GENERALES */
 .btn {
     display: inline-block;
-    padding: 10px;
+    padding: 15px;
     margin: 4px;
     background: linear-gradient(to bottom, #a5d437, #87a82d);
     color: #0b0b0b;
@@ -237,5 +238,29 @@ textarea{
     padding: 15px;
     font-size: 0.85rem;
     color: #9a8230;
+}
+/* PROFILE */
+.container-profile{
+    background-color: var(--gold-dark) ;
+    padding: 20px;
+    border-radius:12px;
+
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+.profile-card {
+    background: #141414;
+    color: #d4af37;
+    padding: 25px;
+    border-radius: 12px;
+    max-width: 500px;
+    margin-bottom: 20px;
+
+    box-shadow:
+        inset 0 2px 4px rgba(255,215,100,0.1),
+        0 6px 18px rgba(0,0,0,0.8);
+}
+
+.profile-card p {
+    margin-bottom: 10px;
 }
 

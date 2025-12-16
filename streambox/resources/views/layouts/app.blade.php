@@ -22,7 +22,7 @@
     <br><br>
     @isset($currentUser)
         <p class="user-box">
-            <a href="{{ route('profile.edit') }}">       
+            <a href="{{ route('profile.index') }}">       
                 Bienvenido, {{ $currentUser->name }}
             </a>
         </p>
