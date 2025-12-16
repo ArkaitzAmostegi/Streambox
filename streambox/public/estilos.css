@@ -165,7 +165,7 @@ body {
 /* BOTONES GENERALES */
 .btn {
     display: inline-block;
-    padding: 15px;
+    padding: 8px 15px;
     margin: 4px;
     background: linear-gradient(to bottom, #a5d437, #87a82d);
     color: #0b0b0b;
