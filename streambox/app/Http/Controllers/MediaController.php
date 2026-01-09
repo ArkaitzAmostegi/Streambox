@@ -12,17 +12,18 @@ use Illuminate\Http\RedirectResponse;
 
 class MediaController extends Controller
 {
-    /**
-     * Seguridad: solo administradores pueden modificar contenido
-     */
-    private function denyIfNotAdmin(): void
+    //Constructor para el middleware
+   public function __construct()
     {
-        $user = \App\Models\User::find(1); // simula login
-
-        if (!$user || $user->role !== 'admin') {
-            abort(403, 'No autorizado');
-        }
+        $this->middleware('admin')->only([
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy'
+        ]);
     }
+
 
     /**
      * No existe listado global de media
@@ -82,7 +83,6 @@ class MediaController extends Controller
      */
     public function create(): View
     {
-        $this->denyIfNotAdmin();
 
         return view('media.create', [
             'directors' => Director::all(),
@@ -97,8 +97,6 @@ class MediaController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $this->denyIfNotAdmin();
-
         $validated = $request->validate([
             'titulo'       => 'required|string',
             'descripcion'  => 'nullable|string',
@@ -136,8 +134,6 @@ class MediaController extends Controller
      */
     public function edit(Media $media): View
     {
-        $this->denyIfNotAdmin();
-
         return view('media.edit', [
             'media'     => $media,
             'directors' => Director::all(),
@@ -152,8 +148,6 @@ class MediaController extends Controller
      */
     public function update(Request $request, Media $media): RedirectResponse
     {
-        $this->denyIfNotAdmin();
-
         $validated = $request->validate([
             'titulo'       => 'required|string',
             'descripcion'  => 'nullable|string',
@@ -182,8 +176,6 @@ class MediaController extends Controller
      */
     public function destroy(Media $media): RedirectResponse
     {
-        $this->denyIfNotAdmin();
-
         $tipo = $media->tipo;
 
         $media->delete();
