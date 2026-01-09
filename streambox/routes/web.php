@@ -1,61 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MediaController;
-use App\Http\Controllers\GenreController;
-use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('welcome');
+});
 
-/*
-|--------------------------------------------------------------------------
-| MEDIA
-|--------------------------------------------------------------------------
-*/
-// CRUD media
-Route::get('/media/tipo/{tipo}', [MediaController::class, 'filterByType'])->name('media.tipo');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::resource('media', MediaController::class)
-    ->parameters(['media' => 'media'])
-    //Ruta porque no acepta media/{media}, coje media/{medium}.  
-                            //Como muestra esta línea de consulta en el cmd: 
-                                // PS C:\PERSONAL\02 Estudios\02 Grado Superior de DAW\2 Año\DWES\2ª Evaluación\Streambox> docker-compose exec web php artisan route:list | findstr media.update
-                                //PUT|PATCH       media/{medium} ....... media.update ??? MediaController@update
-                            //Al poner esta ruta, pasamos a esto:
-                                //PS C:\PERSONAL\02 Estudios\02 Grado Superior de DAW\2 Año\DWES\2ª Evaluación\Streambox> docker-compose exec web php artisan route:list | findstr media.update
-                                // PUT|PATCH       media/{media} ........ media.update ??? MediaController@update
-    ->except(['show']) // si no usas show, opcional
-    ->middleware([
-        'create' => 'admin',
-        'store' => 'admin',
-        'edit' => 'admin',
-        'update' => 'admin',
-        'destroy' => 'admin',
-    ]);
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-
-/*
-|--------------------------------------------------------------------------
-| GÉNEROS
-|--------------------------------------------------------------------------
-*/
-Route::resource('genre', GenreController::class);
-
-/*
-|--------------------------------------------------------------------------
-| DIRECTORES
-|--------------------------------------------------------------------------
-*/
-Route::resource('director', DirectorController::class);
-
-/*
-|--------------------------------------------------------------------------
-| PERFIL
-|--------------------------------------------------------------------------
-*/
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+require __DIR__.'/auth.php';

@@ -12,7 +12,7 @@ class AdminOnly
     public function handle(Request $request, Closure $next): Response
     {
         // Simulación de usuario logueado (hasta usar Breeze)
-        $user = User::find(1);
+        $user = auth()->user();
 
         if (!$user || $user->role !== 'admin') {
             abort(403, 'Acceso solo para administradores');

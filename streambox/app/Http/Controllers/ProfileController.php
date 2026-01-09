@@ -2,85 +2,59 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Profile;
-use App\Models\User;
-use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    
-    public function index(): View
+    /**
+     * Display the user's profile form.
+     */
+    public function edit(Request $request): View
     {
-        $currentUser = User::find(1); // simulación login
-        $profile = $currentUser->profile;
-
-        return view('profile.index', compact('currentUser', 'profile'));
+        return view('profile.edit', [
+            'user' => $request->user(),
+        ]);
     }
 
-    public function create(): RedirectResponse
+    /**
+     * Update the user's profile information.
+     */
+    public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        // No se crean perfiles desde interfaz
-        return redirect()->route('profile.edit');
+        $request->user()->fill($request->validated());
+
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
+        }
+
+        $request->user()->save();
+
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    public function store(Request $request): RedirectResponse
+    /**
+     * Delete the user's account.
+     */
+    public function destroy(Request $request): RedirectResponse
     {
-        // No se almacenan perfiles
-        return redirect()->route('profile.edit');
-    }
-
-    public function show(Profile $profile): RedirectResponse
-    {
-        // No se muestra perfil ajeno
-        return redirect()->route('profile.edit');
-    }
-
-    // Mostrar formulario de edición del perfil
-    public function edit(): View
-    {
-        $currentUser = User::find(1); //tengo que hardcodear el user, ya que Laravel no permite user view()->share() en los controladores
-        $profile = $currentUser->profile;
-
-        return view('profile.edit', compact('currentUser', 'profile'));
-    }
-
-
-    // Actualizar perfil en la BBDD
-    public function update(Request $request): RedirectResponse
-    {
-        $currentUser = User::find(1); //tengo que hardcodear el user, ya que Laravel no permite user view()->share() en los controladores
-        $profile = $currentUser->profile;
-
-        $validated = $request->validate([
-            'nombre' => 'required|string',
-            'edad' => 'nullable|integer',
-            'telefono' => 'nullable|string',
-            'email' => 'required|email'
+        $request->validateWithBag('userDeletion', [
+            'password' => ['required', 'current_password'],
         ]);
 
-        // Actualizar USER
-        $currentUser->update([
-            'name' => $validated['nombre'],
-            'email' => $validated['email']
-        ]);
+        $user = $request->user();
 
-        // Actualizar PROFILE
-        $profile->update([
-            'nombre' => $validated['nombre'],
-            'edad' => $validated['edad'],
-            'telefono' => $validated['telefono'],
-            'email' => $validated['email']
-        ]);
+        Auth::logout();
 
-        return redirect()->route('profile.edit')->with('success', 'Perfil actualizado correctamente');
-    }
-    
-    //No se usa
-    public function destroy(Profile $profile): RedirectResponse
-    {
-        // No se permite borrar perfiles
-        return redirect()->route('profile.edit');
+        $user->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return Redirect::to('/');
     }
 }

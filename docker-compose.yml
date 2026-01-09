@@ -50,6 +50,19 @@ services:
     networks:
       - streambox_net
 
+  # -----------------------------------------------------
+  # NODE
+  # -----------------------------------------------------
+
+  node:
+    image: node:20-alpine
+    working_dir: /var/www/html
+    volumes:
+      - ./streambox:/var/www/html
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 5173"
+
 
 # ----------------------------------------------------
 # 4. RED Y VOLÚMENES
@@ -60,3 +73,4 @@ networks:
 
 volumes:
   streambox_dbdata:
+
