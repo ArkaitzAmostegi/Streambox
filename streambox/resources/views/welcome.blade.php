@@ -1,17 +1,15 @@
-@extends('layouts.app')
+<x-guest-layout>
+    <div class="container body-welcome" style="text-align:center; margin-top:80px;">
+        <h1>STREAMBOX</h1>
+        <p>Tu plataforma multimedia.</p>
 
-@section('body-class', 'body-welcome')
-
-@section('content')
-<div style="text-align:center; margin-top:40px;">
-    <h1 style="font-size:48px; font-weight:bold;">STREAMBOX</h1>
-    <br><br>
-    <p>Tu plataforma multimedia.</p>
-    <br><br>
-    <a href="{{ route('media.index') }}"
-       style="display:inline-block; padding:12px 25px; background:#4caf50; color:white;
-              text-decoration:none; border-radius:8px; font-size:18px;">
-        Entrar
-    </a>
-</div>
-@endsection
+        <div style="margin-top:30px;">
+            @auth
+                <a href="{{ route('dashboard') }}" class="btn">Dashboard</a>
+            @else
+                <a href="{{ route('login') }}" class="btn">Login</a>
+                <a href="{{ route('register') }}" class="btn">Register</a>
+            @endauth
+        </div>
+    </div>
+</x-guest-layout>
